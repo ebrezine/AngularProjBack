@@ -34,7 +34,7 @@ public class LoginController implements Controller {
 		} else {
 			// if no user was found, send 401 status
 			ctx.status(401);
-			ctx.json("There was no user found with that email and pasword, try again or register for access.");
+			ctx.json("There was no user found with that email and password, try again or register for access.");
 		}
 	};
 
