@@ -6,7 +6,7 @@ is_worker BOOLEAN
 );
 
 CREATE TABLE claims (
-id SERIAL,
+id SERIAL PRIMARY KEY,
 amount INTEGER,
 description VARCHAR(500),
 status VARCHAR(8),
