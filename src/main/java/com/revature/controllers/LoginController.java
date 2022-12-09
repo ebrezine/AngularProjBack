@@ -40,7 +40,7 @@ public class LoginController implements Controller {
 
 	@Override
 	public void addRoutes(Javalin app) {
-		// TODO Auto-generated method stub
+		app.post("/login", login);
 
 	}
 }
