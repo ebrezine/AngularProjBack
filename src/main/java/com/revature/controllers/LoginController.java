@@ -52,9 +52,37 @@ public class LoginController implements Controller {
 		ctx.status(200).json("{\"success\":\"Successfully logged out\"}");
 	};
 
+	Handler register = ctx -> {
+		LoginDTO attempt = ctx.bodyAsClass(LoginDTO.class);
+
+		// check that the attempted login has a username and password
+		if (attempt.username == null || attempt.password == null) {
+			ctx.status(400).json("{\"error\":\"Username or password is empty\"}");
+			return;
+		}
+
+		User employee = new User(attempt.username, attempt.password, attempt.isManager);
+
+		// attempt to register the employee
+		try {
+			if (loginService.register(employee)) {
+				ctx.status(200).json(
+						"{\"success\":\"A new user has been created with that username and password, proceed to login\"}");
+			} else {
+				ctx.status(401).json("{\"error\":\"Their was an unknown issue creating this user\"}");
+			}
+		} catch (Exception e) {
+			// if the employee exists already, send a 400 status
+			// and the exception toString
+			ctx.status(400).json("{\"error\":\"" + e.toString() + "\"}");
+		}
+
+	};
+
 	@Override
 	public void addRoutes(Javalin app) {
 		app.post("/login", login);
+		app.post("/register", register);
 		app.get("/logout", logout);
 	}
 }
