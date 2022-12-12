@@ -1,6 +1,7 @@
 package com.revature.daos;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -14,8 +15,27 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public boolean addUser(User user) {
-		// TODO Auto-generated method stub
-		return false;
+		try (Connection connection = ConnectionUtil.getConnection()) {
+			String sql = "INSERT INTO users (username, PASSWORD, is_worker) VALUES (?,?,?)";
+
+			PreparedStatement statement = connection.prepareStatement(sql);
+
+			int index = 0;
+			statement.setString(++index, user.getUsername());
+			statement.setString(++index, user.getPassword());
+			if (user.isWorker()) {
+				statement.setBoolean(++index, user.isWorker());
+			} else {
+				statement.setBoolean(++index, false);
+			}
+
+			statement.execute();
+
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
