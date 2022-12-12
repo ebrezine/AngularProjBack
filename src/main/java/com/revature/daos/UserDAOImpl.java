@@ -38,6 +38,8 @@ public class UserDAOImpl implements UserDAO {
 		}
 	}
 
+	// ? DOES THIS METHOD NEED TO EXIST? We are getting a user by filtering the
+	// ? employee list and returning just the user that has logged in
 	@Override
 	public User getUser(int id) {
 		// TODO Auto-generated method stub
