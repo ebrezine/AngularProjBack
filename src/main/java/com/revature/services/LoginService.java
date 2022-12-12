@@ -30,7 +30,7 @@ public class LoginService {
 
 		for (User usr : users) {
 			if (usr.getUsername().equals(user.getUsername())) {
-				throw new Exception("An employee with that email exists already.");
+				throw new Exception("A user with that email already exists, either login or reset your password.");
 			}
 		}
 
