@@ -72,7 +72,7 @@ public class LoginController implements Controller {
 				ctx.status(200).json(
 						"{\"success\":\"A new user has been created with that username and password, proceed to login\"}");
 			} else {
-				ctx.status(401).json("{\"error\":\"Their was an unknown issue creating this user\"}");
+				ctx.status(401).json("{\"error\":\"There was an unknown issue creating this user\"}");
 			}
 		} catch (Exception e) {
 			// if the employee exists already, send a 400 status
