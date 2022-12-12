@@ -30,6 +30,7 @@ public class LoginController implements Controller {
 
 			// add the user to the session, return 200 status
 			session.setAttribute("user", user);
+			// TODO - redirect to homepage
 			ctx.status(200);
 		} else {
 			// if no user was found, send 401 status
@@ -51,6 +52,7 @@ public class LoginController implements Controller {
 
 		// invalidate the session, send 200 status
 		session.invalidate();
+		// TODO - redirect to homepage
 		ctx.status(200).json("{\"success\":\"Successfully logged out\"}");
 	};
 
@@ -69,6 +71,7 @@ public class LoginController implements Controller {
 		// attempt to register the employee
 		try {
 			if (loginService.register(employee)) {
+				// TODO - add user to session, redirect to homepage
 				ctx.status(200).json(
 						"{\"success\":\"A new user has been created with that username and password, proceed to login\"}");
 			} else {
