@@ -24,7 +24,16 @@ public class LoginService {
 		}
 	}
 
-	public boolean register(User user) {
+	// TODO - create custom exception to handle errors
+	public boolean register(User user) throws Exception {
+		List<User> users = userDAO.getUsers();
+
+		for (User usr : users) {
+			if (usr.getUsername().equals(user.getUsername())) {
+				throw new Exception("An employee with that email exists already.");
+			}
+		}
+
 		return userDAO.addUser(user);
 	}
 }
