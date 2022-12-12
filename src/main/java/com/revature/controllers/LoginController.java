@@ -16,8 +16,7 @@ public class LoginController implements Controller {
 
 		// check that the user has included their username and password
 		if (attempt.username == null || attempt.password == null) {
-			ctx.status(400);
-			ctx.json("Email and/or password is empty, please try again");
+			ctx.status(400).json("{\"error\": \"Email and/or password is empty, please try again\"}");
 			return;
 		}
 
@@ -34,8 +33,23 @@ public class LoginController implements Controller {
 		} else {
 			// if no user was found, send 401 status
 			ctx.status(401);
-			ctx.json("There was no user found with that email and password, try again or register for access.");
+			ctx.json(
+					"{\"error\": \"There was no user found with that email and password, try again or register for access.\"}");
 		}
+	};
+
+	Handler logout = ctx -> {
+		HttpSession session = ctx.req().getSession(false);
+
+		// if session is null, return 400 status
+		if (session == null) {
+			ctx.status(400).json("{\"error\": \"No user is logged in.\"}");
+			return;
+		}
+
+		// invalidate the session, send 200 status
+		session.invalidate();
+		ctx.status(200).json("{\"success\":\"Successfully logged out\"}");
 	};
 
 	@Override
