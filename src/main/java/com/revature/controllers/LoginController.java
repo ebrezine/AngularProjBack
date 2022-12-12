@@ -64,7 +64,7 @@ public class LoginController implements Controller {
 			return;
 		}
 
-		User employee = new User(attempt.username, attempt.password, attempt.isManager);
+		User employee = new User(attempt.username, attempt.password, attempt.isWorker);
 
 		// attempt to register the employee
 		try {
