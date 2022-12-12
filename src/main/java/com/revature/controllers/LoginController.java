@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpSession;
 public class LoginController implements Controller {
 	private LoginService loginService = new LoginService();
 
+	// TODO - create custom exception to handle errors
 	Handler login = ctx -> {
 		LoginDTO attempt = ctx.bodyAsClass(LoginDTO.class);
 
@@ -38,6 +39,7 @@ public class LoginController implements Controller {
 		}
 	};
 
+	// TODO - create custom exception to handle errors
 	Handler logout = ctx -> {
 		HttpSession session = ctx.req().getSession(false);
 
@@ -52,6 +54,7 @@ public class LoginController implements Controller {
 		ctx.status(200).json("{\"success\":\"Successfully logged out\"}");
 	};
 
+	// TODO - create custom exception to handle errors
 	Handler register = ctx -> {
 		LoginDTO attempt = ctx.bodyAsClass(LoginDTO.class);
 
