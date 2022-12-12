@@ -3,13 +3,13 @@ package com.revature.models;
 public class LoginDTO {
 	public String username;
 	public String password;
-	public boolean isManager;
+	public boolean isWorker;
 
-	public LoginDTO(String username, String password, boolean isManager) {
+	public LoginDTO(String username, String password, boolean isWorker) {
 		super();
 		this.username = username;
 		this.password = password;
-		this.isManager = isManager;
+		this.isWorker = isWorker;
 	}
 
 	public LoginDTO() {
