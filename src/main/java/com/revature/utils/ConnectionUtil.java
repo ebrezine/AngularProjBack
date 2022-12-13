@@ -21,8 +21,8 @@ public class ConnectionUtil {
 			}
 			Dotenv dotenv = Dotenv.load();
 
-			String dbPort = dotenv.get("DB_PORT");
-			String dbName = dotenv.get("DB_NAME");
+			String dbPort = dotenv.get("DB_PORT") != null ? dotenv.get("DB_PORT") : "5433";
+			String dbName = dotenv.get("DB_NAME") != null ? dotenv.get("DB_NAME") : "postgres";
 
 			String url = String.format("jdbc:postgresql://localhost:%s/%s", dbPort, dbName);
 
