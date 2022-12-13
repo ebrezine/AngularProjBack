@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 public class ConnectionUtil {
 	private static Connection connection;
 
@@ -17,8 +19,13 @@ public class ConnectionUtil {
 				e.printStackTrace();
 				return null;
 			}
+			Dotenv dotenv = Dotenv.load();
 
-			String url = "jdbc:postgresql://localhost:5433/postgres";
+			String dbPort = dotenv.get("DB_PORT");
+			String dbName = dotenv.get("DB_NAME");
+
+			String url = String.format("jdbc:postgresql://localhost:%s/%s", dbPort, dbName);
+
 			String username = "postgres";
 			String password = "password";
 
