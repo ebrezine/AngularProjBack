@@ -3,6 +3,7 @@ package com.revature;
 import com.revature.controllers.Controller;
 import com.revature.controllers.LoginController;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import io.javalin.Javalin;
 
 public class Main {
@@ -13,7 +14,11 @@ public class Main {
 
 		configure(new LoginController());
 
-		app.start(8083);
+		Dotenv dotenv = Dotenv.load();
+
+		int port = Integer.parseInt(dotenv.get("PORT", "8083"));
+
+		app.start(port);
 	}
 
 	public static void configure(Controller... controllers) {
