@@ -10,7 +10,13 @@ public class Main {
 	private static Javalin app;
 
 	public static void main(String[] args) {
-		app = Javalin.create();
+		app = Javalin.create(config -> {
+			config.plugins.enableCors(cors -> {
+				cors.add(it -> {
+					it.allowHost("http://localhost:4200");
+				});
+			});
+		});
 
 		configure(new LoginController());
 
