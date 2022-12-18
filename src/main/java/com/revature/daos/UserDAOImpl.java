@@ -74,4 +74,26 @@ public class UserDAOImpl implements UserDAO {
 			return null;
 		}
 	}
+	
+	public boolean changeStatus(User user) {
+		try(Connection connection = ConnectionUtil.getConnection()) {
+			String sql = new String();
+			if(user.isWorker()) {
+				sql = "UPDATE users SET is_worker = true WHERE username = "+user.getUsername()+";";
+			}
+			else {
+				sql = "UPDATE users SET is_worker = true WHERE username = "+user.getUsername()+";";
+			}
+			
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.execute();
+			
+			return true;
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
 }

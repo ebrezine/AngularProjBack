@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.revature.models.Claim;
 import com.revature.utils.ConnectionUtil;
+import com.revature.models.ClaimHelper;
 
 public class ClaimDAO {
 
@@ -102,6 +103,41 @@ public class ClaimDAO {
         }
         
     }
-
     
+    public boolean setClaim(ClaimHelper claim) {
+		try(Connection connection = ConnectionUtil.getConnection()){
+			
+			String query = "SELECT * FROM claims WHERE id="+claim.id+";";
+			PreparedStatement statement = connection.prepareStatement(query);
+			ResultSet tick = statement.executeQuery();
+			Boolean pend = false; //have to assign some value, default false in case no ticket appears
+			while(tick.next()) {
+				pend = tick.getBoolean("pending"); //checking if ticket is pending
+			}
+				if(pend == true) { //making sure non-pending tickets can't be changed
+					String sql = "UPDATE claims SET status = ?, pending=false WHERE id = ?;";
+					statement = connection.prepareStatement(sql);
+					statement.setString(1, claim.status);
+					statement.setInt(2, claim.id);
+					
+					statement.execute();
+					
+
+					
+					return true;
+				}
+				else {
+					return false;
+				}
+
+			
+			
+		}
+		catch(SQLException e) 
+		{
+			e.printStackTrace();
+			return false;
+		}
+    }		
 }
+

@@ -3,6 +3,7 @@ package com.revature.controllers;
 import com.revature.models.LoginDTO;
 import com.revature.models.User;
 import com.revature.services.LoginService;
+import com.revature.daos.UserDAOImpl;
 
 import io.javalin.Javalin;
 import io.javalin.http.Handler;
@@ -85,10 +86,33 @@ public class LoginController implements Controller {
 
 	};
 
+	Handler changeStatus = ctx -> {
+		HttpSession session = ctx.req().getSession(false);
+
+		if(session == null) {
+			ctx.status(400).json("{\\\"error\\\": \\\"No user is logged in.\\\"}");
+		}else {
+			int pin = ctx.bodyAsClass(int.class);
+			
+			if(pin == 1234) {//magic number for changing class
+				User curr = (User) session.getAttribute("user");
+				if (curr.isWorker()){
+					curr.setWorker(false);
+					
+				}else {
+					curr.setWorker(true);
+				}
+				UserDAOImpl UserDAO = new UserDAOImpl();
+				UserDAO.changeStatus(curr);
+			}
+		}
+	};
+	
 	@Override
 	public void addRoutes(Javalin app) {
 		app.post("/login", login);
 		app.post("/register", register);
 		app.get("/logout", logout);
+		app.post("/change", changeStatus);
 	}
 }

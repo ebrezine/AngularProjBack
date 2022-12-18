@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.revature.daos.ClaimDAO;
 import com.revature.models.Claim;
+import com.revature.models.ClaimHelper;
 
 //import com.revature.utils.ConnectionUtil;
 
@@ -34,6 +35,9 @@ public class ClaimService {
         return getAllClaims(id);
     }
     //Get All Claims of a User by Passing ID
-
+    
+    public boolean changeClaim(ClaimHelper claim) {
+    	return claim_dao.setClaim(claim);
+    }
 
 }
