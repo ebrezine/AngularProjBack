@@ -32,7 +32,7 @@ public class ClaimService {
 
 
     public List<Claim> getAllClaims(int id){
-        return getAllClaims(id);
+        return claim_dao.getAllClaims(id);
     }
     //Get All Claims of a User by Passing ID
     

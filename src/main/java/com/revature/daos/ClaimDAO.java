@@ -17,7 +17,7 @@ public class ClaimDAO {
     //Get all Pending Claims
     public List<Claim> getPendingClaims(){
         try(Connection connection = ConnectionUtil.getConnection()){
-            String sql = "SELECT * FROM claims WHERE status = 'pending';";
+            String sql = "SELECT * FROM claims WHERE status = 'Pending';";
 
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
@@ -49,7 +49,7 @@ public class ClaimDAO {
     public List<Claim> getAllClaims(int id){
         try(Connection connection = ConnectionUtil.getConnection()){
 
-        String sql = "SELECT * FROM claims WHERE created_by = 'id';"; //May or may not work
+        String sql = "SELECT * FROM claims WHERE created_by = " + id + ""; //May or may not work
         //May have to be a prepared statement
 
         Statement statement = connection.createStatement();

@@ -42,6 +42,9 @@ public class ClaimController {
     	HttpSession session = ctx.req().getSession(false);
     	if(session != null) {
     		User curr = (User) session.getAttribute("user");
+            System.out.println("==============SHOULD BE PRINTING CURRENT USERS ID:=====================");
+            System.out.println(curr.getId());
+            System.out.println(curr.isWorker());
     		if (curr != null) {
     			if(curr.isWorker()) {
             		ctx.json(claimService.getAllPendingClaims());
@@ -49,6 +52,7 @@ public class ClaimController {
             	}
             	else
             	{
+                    System.out.println("===================WE ARE HERE====================");
             		ctx.json(claimService.getAllClaims(curr.getId()));
                     ctx.status(200);
             	}

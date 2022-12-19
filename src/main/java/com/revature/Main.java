@@ -1,5 +1,6 @@
 package com.revature;
 
+import com.revature.controllers.ClaimController;
 import com.revature.controllers.Controller;
 import com.revature.controllers.LoginController;
 
@@ -18,7 +19,8 @@ public class Main {
 			});
 		});
 
-		configure(new LoginController());
+		configure(new ClaimController(), new LoginController());
+		
 
 		Dotenv dotenv = Dotenv.load();
 
@@ -27,9 +29,12 @@ public class Main {
 		app.start(port);
 	}
 
-	public static void configure(Controller... controllers) {
+	public static void configure(ClaimController claim_controller,Controller... controllers) {
 		for (Controller controller : controllers) {
 			controller.addRoutes(app);
 		}
+		claim_controller.addRoutes(app);
+
+
 	}
 }
