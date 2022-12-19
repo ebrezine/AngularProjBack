@@ -73,8 +73,7 @@ public class LoginController implements Controller {
 		try {
 			if (loginService.register(employee)) {
 				// TODO - add user to session, redirect to homepage
-				ctx.status(200).json(
-						"A new user has been created.");
+				ctx.status(200);
 			} else {
 				ctx.status(401).json("There was an unknown issue creating this user");
 			}
