@@ -18,7 +18,7 @@ public class LoginController implements Controller {
 
 		// check that the user has included their username and password
 		if (attempt.username == null || attempt.password == null) {
-			ctx.status(400).json("error\": \"Email and/or password is empty, please try again\"");
+			ctx.status(400).json("Email and/or password is empty, please try again");
 			return;
 		}
 
@@ -37,7 +37,7 @@ public class LoginController implements Controller {
 			// if no user was found, send 401 status
 			ctx.status(401);
 			ctx.json(
-					"error\": \"There was no user found with that email and password, try again or register for access.\"");
+					"There was no user found with that email and password, try again or register for access.");
 		}
 	};
 
@@ -47,14 +47,14 @@ public class LoginController implements Controller {
 
 		// if session is null, return 400 status
 		if (session == null) {
-			ctx.status(400).json("error\": \"No user is logged in.\"");
+			ctx.status(400).json("No user is logged in.");
 			return;
 		}
 
 		// invalidate the session, send 200 status
 		session.invalidate();
 		// TODO - redirect to homepage
-		ctx.status(200).json("success\":\"Successfully logged out\"");
+		ctx.status(200).json("Successfully logged out");
 	};
 
 	// TODO - create custom exception to handle errors
@@ -63,7 +63,7 @@ public class LoginController implements Controller {
 
 		// check that the attempted login has a username and password
 		if (attempt.username == null || attempt.password == null) {
-			ctx.status(400).json("{\"error\":\"Username or password is empty\"}");
+			ctx.status(400).json("Username or password is empty");
 			return;
 		}
 
@@ -74,14 +74,14 @@ public class LoginController implements Controller {
 			if (loginService.register(employee)) {
 				// TODO - add user to session, redirect to homepage
 				ctx.status(200).json(
-						"success\":\"A new user has been created with that username and password, proceed to login\"");
+						"A new user has been created.");
 			} else {
-				ctx.status(401).json("error\":\"There was an unknown issue creating this user\"");
+				ctx.status(401).json("There was an unknown issue creating this user");
 			}
 		} catch (Exception e) {
 			// if the employee exists already, send a 400 status
 			// and the exception toString
-			ctx.status(400).json("error\":\"" + e.toString() + "\"");
+			ctx.status(400).json(e.toString());
 		}
 
 	};
@@ -90,7 +90,7 @@ public class LoginController implements Controller {
 		HttpSession session = ctx.req().getSession(false);
 
 		if (session == null) {
-			ctx.status(400).json("error\": \"No user is logged in.\"");
+			ctx.status(400).json("No user is logged in.");
 		} else {
 			int pin = ctx.bodyAsClass(int.class);
 
