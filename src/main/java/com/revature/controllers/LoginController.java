@@ -16,7 +16,6 @@ import jakarta.servlet.http.HttpSession;
 public class LoginController implements Controller {
 	private LoginService loginService = new LoginService();
 
-	// TODO - create custom exception to handle errors
 	Handler login = ctx -> {
 		LoginDTO attempt = ctx.bodyAsClass(LoginDTO.class);
 
@@ -43,7 +42,6 @@ public class LoginController implements Controller {
 		}
 	};
 
-	// TODO - create custom exception to handle errors
 	Handler logout = ctx -> {
 		HttpSession session = ctx.req().getSession(false);
 
@@ -55,11 +53,10 @@ public class LoginController implements Controller {
 
 		// invalidate the session, send 200 status
 		session.invalidate();
-		// TODO - redirect to homepage
+
 		ctx.status(200).result("Successfully logged out");
 	};
 
-	// TODO - create custom exception to handle errors
 	Handler register = ctx -> {
 		LoginDTO attempt = ctx.bodyAsClass(LoginDTO.class);
 
@@ -74,7 +71,7 @@ public class LoginController implements Controller {
 		// attempt to register the employee
 		try {
 			if (loginService.register(employee)) {
-				// TODO - add user to session, redirect to homepage
+				// TODO - add user to session, send user to frontend
 				ctx.status(200);
 			} else {
 				ctx.status(401).result("There was an unknown issue creating this user");
@@ -108,46 +105,45 @@ public class LoginController implements Controller {
 			}
 		}
 	};
-	
+
 	Handler resetPassword = ctx -> {
 		HttpSession session = ctx.req().getSession(false);
 		LoginDTO userPwChange = ctx.bodyAsClass(LoginDTO.class);
 		User loggedInUser = (User) session.getAttribute("user");
-		
+
 		if (loginService.login(loggedInUser.getUsername(), userPwChange.password) != null) {
-			//User user = loginService.login(attempt.username, attempt.password);
-			
-			
-			//HttpSession session = ctx.req().getSession();
+			// User user = loginService.login(attempt.username, attempt.password);
+
+			// HttpSession session = ctx.req().getSession();
 			UserDAO userDAO = new UserDAOImpl();
-			//String empRole = edao.getEmployeeByEmail(employee.getEmail()).getRole();
-			if(userDAO.userPwChange(loggedInUser.getUsername(), userPwChange.newPassword)) {
-			
+			// String empRole = edao.getEmployeeByEmail(employee.getEmail()).getRole();
+			if (userDAO.userPwChange(loggedInUser.getUsername(), userPwChange.newPassword)) {
+
 				List<User> users = userDAO.getUsers();
 				ctx.json(users);
-				//System.out.println(users);
-				//CREATE USER JSON FORMAT IN RESPONSE////////////////////////////
-			//session.setAttribute("role", empRole);
-			//session.setAttribute("user", employee);
-			//session.setAttribute("userEmail", employee.getEmail());
-			//String userEmail = (String) session.getAttribute("userEmail");
-			//System.out.println(userEmail + ":::getAtt");
-			
-			//ctx.html("<h1>PW Changed. please log back in with new password</h1>");
-			//session.invalidate();
-			ctx.status(200);
-			}else {
+				// System.out.println(users);
+				// CREATE USER JSON FORMAT IN RESPONSE////////////////////////////
+				// session.setAttribute("role", empRole);
+				// session.setAttribute("user", employee);
+				// session.setAttribute("userEmail", employee.getEmail());
+				// String userEmail = (String) session.getAttribute("userEmail");
+				// System.out.println(userEmail + ":::getAtt");
+
+				// ctx.html("<h1>PW Changed. please log back in with new password</h1>");
+				// session.invalidate();
+				ctx.status(200);
+			} else {
 				ctx.html("<h1>User is logged in but password change Unsuccessful (syntax?)</h1>");
 				ctx.status(401);
 			}
-			
+
 			// TODO - redirect to homepage
-			
-		}else {
+
+		} else {
 			ctx.html("<h1>You are not logged in or wrong current password. Pw change unsuccessful</h1>");
 			ctx.status(401);
 		}
-		
+
 	};
 
 	@Override
