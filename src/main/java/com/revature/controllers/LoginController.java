@@ -126,6 +126,8 @@ public class LoginController implements Controller {
 			if(userDAO.userPwChange(loggedInUser.getUsername(), userPwChange.newPassword)) {
 			
 				List<User> users = userDAO.getUsers();
+				ctx.json(users);
+				//System.out.println(users);
 				//CREATE USER JSON FORMAT IN RESPONSE////////////////////////////
 			//session.setAttribute("role", empRole);
 			//session.setAttribute("user", employee);
@@ -133,9 +135,9 @@ public class LoginController implements Controller {
 			//String userEmail = (String) session.getAttribute("userEmail");
 			//System.out.println(userEmail + ":::getAtt");
 			
-			ctx.html("<h1>PW Changed. please log back in with new password</h1>");
+			//ctx.html("<h1>PW Changed. please log back in with new password</h1>");
 			//session.invalidate();
-			ctx.status(204);
+			ctx.status(200);
 			}else {
 				ctx.html("<h1>User is logged in but password change Unsuccessful (syntax?)</h1>");
 				ctx.status(401);
@@ -156,6 +158,6 @@ public class LoginController implements Controller {
 		app.post("/register", register);
 		app.get("/logout", logout);
 		app.post("/change", changeStatus);
-		app.patch("/user-profile/resetpassword", resetPassword);
+		app.post("/user-profile/resetpassword", resetPassword);
 	}
 }
