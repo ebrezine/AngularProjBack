@@ -24,7 +24,6 @@ public class LoginService {
 		}
 	}
 
-	// TODO - create custom exception to handle errors
 	public boolean register(User user) throws Exception {
 		List<User> users = userDAO.getUsers();
 
@@ -36,7 +35,7 @@ public class LoginService {
 
 		return userDAO.addUser(user);
 	}
-	
+
 	public boolean userPwChange(String username, String newPassword) {
 		return userDAO.userPwChange(username, newPassword);
 	}
