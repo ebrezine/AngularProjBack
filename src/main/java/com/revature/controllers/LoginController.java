@@ -3,6 +3,10 @@ package com.revature.controllers;
 import com.revature.models.LoginDTO;
 import com.revature.models.User;
 import com.revature.services.LoginService;
+
+import java.util.List;
+
+import com.revature.daos.UserDAO;
 import com.revature.daos.UserDAOImpl;
 
 import io.javalin.Javalin;
@@ -106,6 +110,45 @@ public class LoginController implements Controller {
 			}
 		}
 	};
+	
+	Handler resetPassword = ctx -> {
+		HttpSession session = ctx.req().getSession(false);
+		LoginDTO userPwChange = ctx.bodyAsClass(LoginDTO.class);
+		User loggedInUser = (User) session.getAttribute("user");
+		
+		if (loginService.login(loggedInUser.getUsername(), userPwChange.password) != null) {
+			//User user = loginService.login(attempt.username, attempt.password);
+			
+			
+			//HttpSession session = ctx.req().getSession();
+			UserDAO userDAO = new UserDAOImpl();
+			//String empRole = edao.getEmployeeByEmail(employee.getEmail()).getRole();
+			if(userDAO.userPwChange(loggedInUser.getUsername(), userPwChange.newPassword)) {
+			
+				List<User> users = userDAO.getUsers();
+				//CREATE USER JSON FORMAT IN RESPONSE////////////////////////////
+			//session.setAttribute("role", empRole);
+			//session.setAttribute("user", employee);
+			//session.setAttribute("userEmail", employee.getEmail());
+			//String userEmail = (String) session.getAttribute("userEmail");
+			//System.out.println(userEmail + ":::getAtt");
+			
+			ctx.html("<h1>PW Changed. please log back in with new password</h1>");
+			//session.invalidate();
+			ctx.status(204);
+			}else {
+				ctx.html("<h1>User is logged in but password change Unsuccessful (syntax?)</h1>");
+				ctx.status(401);
+			}
+			
+			// TODO - redirect to homepage
+			
+		}else {
+			ctx.html("<h1>You are not logged in or wrong current password. Pw change unsuccessful</h1>");
+			ctx.status(401);
+		}
+		
+	};
 
 	@Override
 	public void addRoutes(Javalin app) {
@@ -113,5 +156,6 @@ public class LoginController implements Controller {
 		app.post("/register", register);
 		app.get("/logout", logout);
 		app.post("/change", changeStatus);
+		app.patch("/user-profile/resetpassword", resetPassword);
 	}
 }

@@ -11,8 +11,8 @@ is_worker BOOLEAN
 );
 
 INSERT INTO users (username, PASSWORD, is_worker) VALUES 
-	('testuser', 'abc123', false),
-	('test2', 'abc123', false);
+	('tom@tom.com', 'tomspw', false),
+	('mark@tom.com', 'markspw', false);
 
 CREATE TABLE claims (
 id SERIAL PRIMARY KEY,

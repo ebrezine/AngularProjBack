@@ -12,4 +12,6 @@ public interface UserDAO {
 	public abstract boolean addUser(User user);
 	
 	public abstract boolean changeStatus(User user);
+	
+	public abstract boolean userPwChange(String username, String newPassword);
 }
