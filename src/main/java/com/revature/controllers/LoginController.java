@@ -38,7 +38,7 @@ public class LoginController implements Controller {
 			ctx.status(200).json(user);
 		} else {
 			// if no user was found, send 401 status
-			ctx.status(401).result("There was no user found with that email and password, try again or register for access.");
+			ctx.status(401).result("There was no user found with that email and password--wrong email/password, try again or register for access.");
 		}
 	};
 
@@ -54,8 +54,7 @@ public class LoginController implements Controller {
 		// invalidate the session, send 200 status
 		session.invalidate();
 
-		ctx.status(200);
-		// .result("Successfully logged out");
+		ctx.status(200).result("Successfully logged out");
 	};
 
 	Handler register = ctx -> {
@@ -153,6 +152,6 @@ public class LoginController implements Controller {
 		app.post("/register", register);
 		app.get("/logout", logout);
 		app.post("/change", changeStatus);
-		app.post("/user-profile/resetpassword", resetPassword);
+		app.post("/userprofile/resetpassword", resetPassword);
 	}
 }
