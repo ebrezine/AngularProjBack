@@ -1,13 +1,11 @@
 package com.revature.controllers;
 
+import com.revature.daos.UserDAO;
+import com.revature.daos.UserDAOImpl;
+import com.revature.models.ChangePassword;
 import com.revature.models.LoginDTO;
 import com.revature.models.User;
 import com.revature.services.LoginService;
-
-import java.util.List;
-
-import com.revature.daos.UserDAO;
-import com.revature.daos.UserDAOImpl;
 
 import io.javalin.Javalin;
 import io.javalin.http.Handler;
@@ -34,8 +32,11 @@ public class LoginController implements Controller {
 
 			// add the user to the session, return 200 status
 			session.setAttribute("user", user);
+			//session.setAttribute("email", attempt.username);
+			//session.setAttribute("isWorker", attempt.isWorker);
 
 			ctx.status(200).json(user);
+			
 		} else {
 			// if no user was found, send 401 status
 			ctx.status(401).result("There was no user found with that email and password--wrong email/password, try again or register for access.");
@@ -108,19 +109,19 @@ public class LoginController implements Controller {
 
 	Handler resetPassword = ctx -> {
 		HttpSession session = ctx.req().getSession(false);
-		LoginDTO userPwChange = ctx.bodyAsClass(LoginDTO.class);
-		User loggedInUser = (User) session.getAttribute("user");
+		ChangePassword userPwChange = ctx.bodyAsClass(ChangePassword.class);
+		//User loggedInUser = (User) session.getAttribute("user");
 
-		if (loginService.login(loggedInUser.getUsername(), userPwChange.password) != null) {
+		if (loginService.login(userPwChange.getChangePasswordUsername(), userPwChange.getChangePasswordPassword()) != null) {
 			// User user = loginService.login(attempt.username, attempt.password);
 
 			// HttpSession session = ctx.req().getSession();
 			UserDAO userDAO = new UserDAOImpl();
 			// String empRole = edao.getEmployeeByEmail(employee.getEmail()).getRole();
-			if (userDAO.userPwChange(loggedInUser.getUsername(), userPwChange.newPassword)) {
+			if (userDAO.userPwChange(userPwChange.getChangePasswordUsername(), userPwChange.getChangePasswordNewPassword())) {
 
-				List<User> users = userDAO.getUsers();
-				ctx.json(users);
+				//List<User> users = userDAO.getUsers();
+				//ctx.json(users);
 				// System.out.println(users);
 				// CREATE USER JSON FORMAT IN RESPONSE////////////////////////////
 				// session.setAttribute("role", empRole);
@@ -129,19 +130,17 @@ public class LoginController implements Controller {
 				// String userEmail = (String) session.getAttribute("userEmail");
 				// System.out.println(userEmail + ":::getAtt");
 
-				// ctx.html("<h1>PW Changed. please log back in with new password</h1>");
-				// session.invalidate();
+				
 				ctx.status(200);
+				session.invalidate();
 			} else {
-				ctx.html("<h1>User is logged in but password change Unsuccessful (syntax?)</h1>");
-				ctx.status(401);
+				ctx.status(401).result("User is logged in but password change Unsuccessful (syntax?)");
 			}
 
 			// TODO - redirect to homepage
 
 		} else {
-			ctx.html("<h1>You are not logged in or wrong current password. Pw change unsuccessful</h1>");
-			ctx.status(401);
+			ctx.status(401).result("You are not logged in or wrong current password. Pw change unsuccessful");
 		}
 
 	};
