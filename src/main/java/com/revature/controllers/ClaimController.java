@@ -106,13 +106,16 @@ public class ClaimController {
 				ctx.status(400);
 			}
 		}
+        else{
+            ctx.status(401);
+        }
     };
 
     public void addRoutes(Javalin app){
         //app.get("/pending", getAllPendingClaims);
         app.get("/claims", getAllClaims);
-        app.post("/create", createClaim);
-        app.post("/changeclaim", setClaim);
+        app.post("/claims", createClaim);
+        app.put("/claims", setClaim);
     }
 
 
