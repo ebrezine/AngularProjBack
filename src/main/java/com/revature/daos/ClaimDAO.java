@@ -15,17 +15,11 @@ import com.revature.models.ClaimHelper;
 public class ClaimDAO {
 
     //Get all Pending Claims
-<<<<<<< HEAD
     public List<Claim> get_claim_by_user(int id) {
 		try(Connection connection = ConnectionUtil.getConnection()){
 			String sql = "SELECT * FROM claims WHERE created_by = ?;";
 			
 			PreparedStatement statement = connection.prepareStatement(sql);
-=======
-    public List<Claim> getPendingClaims(){
-        try(Connection connection = ConnectionUtil.getConnection()){
-            String sql = "SELECT * FROM claims WHERE status = 'Pending';";
->>>>>>> 7f8f308699dfc1d1fd3183c68ab603197bf9125f
 
 			statement.setInt(1,  id);
 			
@@ -60,12 +54,7 @@ public class ClaimDAO {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
 
-<<<<<<< HEAD
 			List<Claim> claims = new ArrayList<>();
-=======
-        String sql = "SELECT * FROM claims WHERE created_by = " + id + ""; //May or may not work
-        //May have to be a prepared statement
->>>>>>> 7f8f308699dfc1d1fd3183c68ab603197bf9125f
 
 			while (resultSet.next()) {
 
