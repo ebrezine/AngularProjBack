@@ -55,7 +55,7 @@ public class LoginController implements Controller {
 		// invalidate the session, send 200 status
 		session.invalidate();
 
-		ctx.status(200).result("Successfully logged out");
+		ctx.status(200);
 	};
 
 	Handler register = ctx -> {
