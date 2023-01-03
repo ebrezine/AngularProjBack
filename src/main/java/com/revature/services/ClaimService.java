@@ -30,13 +30,8 @@ public class ClaimService {
     }
 
 
-<<<<<<< HEAD
     public List<Claim> getPendingClaims(){
         return claim_dao.getPendingClaims();
-=======
-    public List<Claim> getAllClaims(int id){
-        return claim_dao.getAllClaims(id);
->>>>>>> 7f8f308699dfc1d1fd3183c68ab603197bf9125f
     }
     //Get All Claims of a User by Passing ID
     

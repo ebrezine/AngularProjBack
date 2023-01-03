@@ -70,19 +70,27 @@ public class ClaimController {
 
     //Creating a new Claim
     Handler createClaim = (ctx) -> {
-		Claim claim = ctx.bodyAsClass(Claim.class);
-		HttpSession session = ctx.req().getSession();
-		User work = (User) session.getAttribute("user");
-		claim.setUser_id(work.getId());		
-        if(claim.getStatus() == null) {
-			claim.setStatus("pending");
-			claim.setPending(true);
-		}
+    	HttpSession session = ctx.req().getSession(false);
+        if(session != null){
+            User user = (User) session.getAttribute("user");
+            if(!user.isWorker()){
+                Claim claim = ctx.bodyAsClass(Claim.class);
+				claim.setUser_id(user.getId());		
+                if(claim.getStatus() == null) {
+			        claim.setStatus("pending");
+			        claim.setPending(true);
+		    }else{
+                ctx.status(401);
+            }
+            
 		if(claimService.createClaim(claim)) {
 			ctx.status(201);
 		}else {
-			ctx.status(400);
+			ctx.status(401);
 		}
+            }
+        }
+        
 	};
     
     
@@ -103,7 +111,7 @@ public class ClaimController {
     public void addRoutes(Javalin app){
         //app.get("/pending", getAllPendingClaims);
         app.get("/claims", getAllClaims);
-        app.post("/claims", createClaim);
+        app.post("/create", createClaim);
         app.post("/changeclaim", setClaim);
     }
 
