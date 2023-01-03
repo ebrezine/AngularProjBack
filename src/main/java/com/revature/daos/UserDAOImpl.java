@@ -96,4 +96,33 @@ public class UserDAOImpl implements UserDAO {
 		}
 		
 	}
+	
+	
+	
+	@Override
+	public boolean userPwChange(String username, String newPassword) {
+			try(Connection connection = ConnectionUtil.getConnection()) {
+			
+			String sql = "UPDATE users SET PASSWORD = ? WHERE username = ?;";
+			
+			PreparedStatement statement = connection.prepareStatement(sql);
+			
+			int index = 0;
+			
+			statement.setString(++index, newPassword);
+			statement.setString(++index, username);
+			
+			statement.execute();
+			return true;
+			
+			}catch(SQLException e) {
+			e.printStackTrace();
+		
+		
+		return false;
+			}
+
+	}
+	
+	
 }
