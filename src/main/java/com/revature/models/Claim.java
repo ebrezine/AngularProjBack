@@ -23,6 +23,12 @@ public class Claim {
         this.pending = pending;
     }
 
+    public Claim(int amount, String description) {
+		this.amount = amount;
+		this.description = description;
+		pending=true;
+	}
+
 
     //================Setters and Getters====================
     public int getClaim_id() {

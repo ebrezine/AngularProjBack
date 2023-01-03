@@ -13,26 +13,25 @@ public class ClaimService {
     private ClaimDAO claim_dao = new ClaimDAO();
 
     //We want to be able to Create New Tickets
-    public boolean createClaim(int claim_id, int amount, String description, String status, int user_id){
+    public boolean createClaim(Claim claim){
 
         //We do not need to give the claim ID --> will use DB connection for that
         //We do not need to set pending boolean statu
-        Claim new_claim = new Claim(claim_id,amount,description,status,user_id,true);
-        boolean claim_created = claim_dao.createClaim(new_claim);
+        boolean claim_created = claim_dao.createClaim(claim);
 
         return claim_created;
 
     }
 
     //Get All Pending Claims regardless of ID
-    public List<Claim> getAllPendingClaims(){
+    public List<Claim> get_claim_by_user(int id){
         //Use DAO function, standard stuff
-        return claim_dao.getPendingClaims();
+        return claim_dao.get_claim_by_user(id);
     }
 
 
-    public List<Claim> getAllClaims(int id){
-        return getAllClaims(id);
+    public List<Claim> getPendingClaims(){
+        return claim_dao.getPendingClaims();
     }
     //Get All Claims of a User by Passing ID
     
