@@ -87,7 +87,7 @@ public class ClaimDAO {
 			statement.setInt(++index, claim.getAmount());
 			statement.setString(++index, claim.getDescription());
 			statement.setInt(++index, claim.getUser_id());
-			statement.setString(++index, claim.getStatus());
+			statement.setString(++index, claim.getStatus().toLowerCase());
 			statement.setBoolean(++index, claim.isPending());
 
 			
@@ -102,10 +102,10 @@ public class ClaimDAO {
         
     }
     
-    public boolean setClaim(ClaimHelper claim) {
+    public boolean setClaim(Claim claim) {
 		try(Connection connection = ConnectionUtil.getConnection()){
 				
-            String query = "SELECT * FROM claims WHERE id="+claim.id+";";
+            String query = "SELECT * FROM claims WHERE id="+claim.getClaim_id()+";";
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet tick = statement.executeQuery();
             Boolean pend = true;
@@ -115,8 +115,8 @@ public class ClaimDAO {
                 if(pend == true) {
                     String sql = "UPDATE claims SET status = ?, pending=false WHERE id = ?;";
                     statement = connection.prepareStatement(sql);
-                    statement.setString(1, claim.status);
-                    statement.setInt(2, claim.id);
+                    statement.setString(1, claim.getStatus().toLowerCase());
+                    statement.setInt(2, claim.getClaim_id());
                     
                     statement.execute();
                     

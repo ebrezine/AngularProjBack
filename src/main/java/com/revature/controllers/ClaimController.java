@@ -98,7 +98,7 @@ public class ClaimController {
     	HttpSession session = ctx.req().getSession();
 		User user = (User) session.getAttribute("user");
 		if(user.isWorker()) {
-			ClaimHelper claim = ctx.bodyAsClass(ClaimHelper.class); //makes it much simpler to approve/deny claims
+			Claim claim = ctx.bodyAsClass(Claim.class); //makes it much simpler to approve/deny claims
 			if(claimService.changeClaim(claim)) {
 				ctx.status(201);
 			}
