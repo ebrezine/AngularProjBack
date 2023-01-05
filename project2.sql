@@ -19,8 +19,32 @@ id SERIAL PRIMARY KEY,
 amount INTEGER,
 description VARCHAR(500),
 status VARCHAR(8),
-created_by INTEGER references users(id),
+created_by VARCHAR(100),
 pending BOOLEAN
+);
+
+INSERT INTO claims (
+id,
+amount,
+description,
+status,
+created_by,
+pending
+) VALUES (
+1,
+5400,
+'broken leg',
+'pending',
+'tom@tom.com',
+true
+),
+(
+2,
+7800,
+'surgery',
+'pending',
+'tom@tom.com',
+true
 );
 
 CREATE TABLE covid (

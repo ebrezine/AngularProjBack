@@ -6,7 +6,7 @@ public class Claim {
     private int amount;
     private String description;
     private String status;
-    private int user_id;
+    private String user_id;
     private boolean pending;
 
 
@@ -14,7 +14,7 @@ public class Claim {
         super();
     }
 
-    public Claim(int claim_id, int amount, String description, String status, int user_id, boolean pending){
+    public Claim(int claim_id, int amount, String description, String status, String user_id, boolean pending){
         this.claim_id = claim_id;
         this.amount = amount;
         this.description = description;
@@ -63,11 +63,11 @@ public class Claim {
         this.status = status;
     }
 
-    public int getUser_id() {
+    public String getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(String user_id) {
         this.user_id = user_id;
     }
 

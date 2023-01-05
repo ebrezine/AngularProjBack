@@ -23,6 +23,12 @@ public class ClaimController {
     	HttpSession session = ctx.req().getSession(false);
     	if(session != null) {
     		User curr = (User) session.getAttribute("user");
+<<<<<<< HEAD
+=======
+            System.out.println("==============SHOULD BE PRINTING CURRENT USERS ID:=====================");
+            System.out.println(curr.getUsername());
+            System.out.println(curr.isWorker());
+>>>>>>> backEndWork1
     		if (curr != null) {
     			if(curr.isWorker()) {
             		ctx.json(claimService.getPendingClaims());
@@ -30,7 +36,12 @@ public class ClaimController {
             	}
             	else
             	{
+<<<<<<< HEAD
             		ctx.json(claimService.get_claim_by_user(curr.getId()));
+=======
+                    System.out.println("===================WE ARE HERE====================");
+            		ctx.json(claimService.getAllClaims(curr.getUsername()));
+>>>>>>> backEndWork1
                     ctx.status(200);
             	}
     		}
@@ -70,6 +81,7 @@ public class ClaimController {
 
     //Creating a new Claim
     Handler createClaim = (ctx) -> {
+<<<<<<< HEAD
     	HttpSession session = ctx.req().getSession(false);
         if(session != null){
             User user = (User) session.getAttribute("user");
@@ -89,6 +101,19 @@ public class ClaimController {
 			ctx.status(401);
 		}
             }
+=======
+        Claim newclaim = ctx.bodyAsClass(Claim.class);
+
+        int claim_id = newclaim.getClaim_id();
+        int amount = newclaim.getAmount();
+        String description = newclaim.getDescription();
+        String status = newclaim.getStatus();
+        String user_id = newclaim.getUser_id();
+
+        if(claimService.createClaim(claim_id, amount, description, status, user_id)){
+            System.out.println("============New Claim created===========");
+            ctx.status(200);
+>>>>>>> backEndWork1
         }
         
 	};
