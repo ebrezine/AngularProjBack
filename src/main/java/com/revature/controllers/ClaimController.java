@@ -1,6 +1,7 @@
 package com.revature.controllers;
 
 import com.revature.models.Claim;
+import com.revature.models.ClaimHelper;
 import com.revature.services.ClaimService;
 import com.revature.models.User;
 
@@ -109,11 +110,30 @@ public class ClaimController {
             ctx.status(400);
         }
     };
+    
+    
+    Handler processClaim = (ctx) -> {
+        ClaimHelper processclaim = ctx.bodyAsClass(ClaimHelper.class);
+
+        int id = processclaim.id;
+        
+        String status = processclaim.status;
+        
+
+        if(claimService.changeClaim(id, status)){
+            System.out.println("============Claim processed===========");
+            ctx.status(200);
+        }
+        else{
+            ctx.status(400);
+        }
+    };
 
     public void addRoutes(Javalin app){
         //app.get("/pending", getAllPendingClaims);
         app.get("/claims", getAllClaims);
         app.post("/createClaim", createClaim);
+        app.post("/processClaim", processClaim);
     }
 
 

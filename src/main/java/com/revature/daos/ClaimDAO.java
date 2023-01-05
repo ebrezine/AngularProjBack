@@ -142,11 +142,12 @@ public class ClaimDAO {
         
     }
     
-    public boolean setClaim(ClaimHelper claim) {
+    public boolean setClaim(int id, String status) {
 		try(Connection connection = ConnectionUtil.getConnection()){
 			
-			String query = "SELECT * FROM claims WHERE id="+claim.id+";";
+			String query = "SELECT * FROM claims WHERE id=?;";
 			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setInt(1,  id);
 			ResultSet tick = statement.executeQuery();
 			Boolean pend = false; //have to assign some value, default false in case no ticket appears
 			while(tick.next()) {
@@ -155,8 +156,8 @@ public class ClaimDAO {
 				if(pend == true) { //making sure non-pending tickets can't be changed
 					String sql = "UPDATE claims SET status = ?, pending=false WHERE id = ?;";
 					statement = connection.prepareStatement(sql);
-					statement.setString(1, claim.status);
-					statement.setInt(2, claim.id);
+					statement.setString(1, status);
+					statement.setInt(2, id);
 					
 					statement.execute();
 					

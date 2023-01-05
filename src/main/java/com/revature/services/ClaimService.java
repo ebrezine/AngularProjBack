@@ -40,8 +40,8 @@ public class ClaimService {
     }
     //Get All Claims of a User by Passing ID
     
-    public boolean changeClaim(ClaimHelper claim) {
-    	return claim_dao.setClaim(claim);
+    public boolean changeClaim(int id, String status) {
+    	return claim_dao.setClaim(id, status);
     }
 
 }
