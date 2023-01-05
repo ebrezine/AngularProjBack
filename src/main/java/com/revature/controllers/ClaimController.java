@@ -43,7 +43,7 @@ public class ClaimController {
     	if(session != null) {
     		User curr = (User) session.getAttribute("user");
             System.out.println("==============SHOULD BE PRINTING CURRENT USERS ID:=====================");
-            System.out.println(curr.getId());
+            System.out.println(curr.getUsername());
             System.out.println(curr.isWorker());
     		if (curr != null) {
     			if(curr.isWorker()) {
@@ -53,7 +53,7 @@ public class ClaimController {
             	else
             	{
                     System.out.println("===================WE ARE HERE====================");
-            		ctx.json(claimService.getAllClaims(curr.getId()));
+            		ctx.json(claimService.getAllClaims(curr.getUsername()));
                     ctx.status(200);
             	}
     		}
@@ -99,7 +99,7 @@ public class ClaimController {
         int amount = newclaim.getAmount();
         String description = newclaim.getDescription();
         String status = newclaim.getStatus();
-        int user_id = newclaim.getUser_id();
+        String user_id = newclaim.getUser_id();
 
         if(claimService.createClaim(claim_id, amount, description, status, user_id)){
             System.out.println("============New Claim created===========");
