@@ -1,11 +1,11 @@
 package com.revature.controllers;
 
-import java.util.List;
-
 import com.revature.models.Claim;
 import com.revature.models.ClaimHelper;
 import com.revature.services.ClaimService;
 import com.revature.models.User;
+
+
 
 import io.javalin.Javalin;
 import io.javalin.http.Handler;
@@ -17,34 +17,44 @@ public class ClaimController {
     
     private ClaimService claimService = new ClaimService();
 
+    /*
+    Handler getAllPendingClaims = (ctx) -> {
 
+        HttpSession session = ctx.req().getSession(false); //if session does not exist, false --> do not create one
+        
+        if(session != null)
+        {
+            //TODO would like to also get provider/patient status
+            //LoginDTO user = (LoginDTO) session.getAttribute("user"); 
+            //String username = user.username; //TODO would prefer to get provider status here
+
+            ctx.json(claimService.getAllPendingClaims());
+            ctx.status(200);
+        }
+        else
+        {
+            ctx.status(400).json("{\"error\": \"Invalid credentials\"}");
+        }  
+        
+    };
+*/
     //Manager Only Function, or also automatically filled with session ID
     Handler getAllClaims = (ctx) -> {
     	HttpSession session = ctx.req().getSession(false);
     	if(session != null) {
     		User curr = (User) session.getAttribute("user");
-<<<<<<< HEAD
-=======
             System.out.println("==============SHOULD BE PRINTING CURRENT USERS ID:=====================");
             System.out.println(curr.getUsername());
             System.out.println(curr.isWorker());
->>>>>>> backEndWork1
     		if (curr != null) {
     			if(curr.isWorker()) {
-            		ctx.json(claimService.getPendingClaims());
+            		ctx.json(claimService.getAllPendingClaims());
             		ctx.status(200);
             	}
             	else
             	{
-<<<<<<< HEAD
-            		ctx.json(claimService.get_claim_by_user(curr.getId()));
-=======
                     System.out.println("===================WE ARE HERE====================");
             		ctx.json(claimService.getAllClaims(curr.getUsername()));
-<<<<<<< HEAD
->>>>>>> backEndWork1
-=======
->>>>>>> backEndWork1
                     ctx.status(200);
             	}
     		}
@@ -84,27 +94,6 @@ public class ClaimController {
 
     //Creating a new Claim
     Handler createClaim = (ctx) -> {
-<<<<<<< HEAD
-    	HttpSession session = ctx.req().getSession(false);
-        if(session != null){
-            User user = (User) session.getAttribute("user");
-            if(!user.isWorker()){
-                Claim claim = ctx.bodyAsClass(Claim.class);
-				claim.setUser_id(user.getId());		
-                if(claim.getStatus() == null) {
-			        claim.setStatus("pending");
-			        claim.setPending(true);
-		    }else{
-                ctx.status(401);
-            }
-            
-		if(claimService.createClaim(claim)) {
-			ctx.status(201);
-		}else {
-			ctx.status(401);
-		}
-            }
-=======
         Claim newclaim = ctx.bodyAsClass(Claim.class);
 
         int claim_id = newclaim.getClaim_id();
@@ -116,26 +105,9 @@ public class ClaimController {
         if(claimService.createClaim(claim_id, amount, description, status, user_id)){
             System.out.println("============New Claim created===========");
             ctx.status(200);
->>>>>>> backEndWork1
         }
-        
-	};
-    
-    
-    Handler setClaim = (ctx) -> {
-    	HttpSession session = ctx.req().getSession();
-		User user = (User) session.getAttribute("user");
-		if(user.isWorker()) {
-			Claim claim = ctx.bodyAsClass(Claim.class); //makes it much simpler to approve/deny claims
-			if(claimService.changeClaim(claim)) {
-				ctx.status(201);
-			}
-			else {
-				ctx.status(400);
-			}
-		}
         else{
-            ctx.status(401);
+            ctx.status(400);
         }
     };
     
@@ -160,13 +132,8 @@ public class ClaimController {
     public void addRoutes(Javalin app){
         //app.get("/pending", getAllPendingClaims);
         app.get("/claims", getAllClaims);
-<<<<<<< HEAD
-        app.post("/claims", createClaim);
-        app.put("/claims", setClaim);
-=======
         app.post("/createClaim", createClaim);
         app.post("/processClaim", processClaim);
->>>>>>> backEndWork1
     }
 
 
