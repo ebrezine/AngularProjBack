@@ -41,6 +41,9 @@ public class ClaimController {
 =======
                     System.out.println("===================WE ARE HERE====================");
             		ctx.json(claimService.getAllClaims(curr.getUsername()));
+<<<<<<< HEAD
+>>>>>>> backEndWork1
+=======
 >>>>>>> backEndWork1
                     ctx.status(200);
             	}
@@ -135,12 +138,35 @@ public class ClaimController {
             ctx.status(401);
         }
     };
+    
+    
+    Handler processClaim = (ctx) -> {
+        ClaimHelper processclaim = ctx.bodyAsClass(ClaimHelper.class);
+
+        int id = processclaim.id;
+        
+        String status = processclaim.status;
+        
+
+        if(claimService.changeClaim(id, status)){
+            System.out.println("============Claim processed===========");
+            ctx.status(200);
+        }
+        else{
+            ctx.status(400);
+        }
+    };
 
     public void addRoutes(Javalin app){
         //app.get("/pending", getAllPendingClaims);
         app.get("/claims", getAllClaims);
+<<<<<<< HEAD
         app.post("/claims", createClaim);
         app.put("/claims", setClaim);
+=======
+        app.post("/createClaim", createClaim);
+        app.post("/processClaim", processClaim);
+>>>>>>> backEndWork1
     }
 
 

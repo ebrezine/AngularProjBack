@@ -25,6 +25,9 @@ public class ClaimDAO {
     public List<Claim> getPendingClaims(){
         try(Connection connection = ConnectionUtil.getConnection()){
             String sql = "SELECT * FROM claims WHERE status = 'pending';";
+<<<<<<< HEAD
+>>>>>>> backEndWork1
+=======
 >>>>>>> backEndWork1
 
 			statement.setInt(1,  id);
@@ -206,10 +209,11 @@ public class ClaimDAO {
         
     }
     
-    public boolean setClaim(ClaimHelper claim) {
+    public boolean setClaim(int id, String status) {
 		try(Connection connection = ConnectionUtil.getConnection()){
 >>>>>>> backEndWork1
 			
+<<<<<<< HEAD
 			String sql = "INSERT INTO claims (amount, description, created_by, status, pending) VALUES (?, ?, ?, ?, ?);";
 			
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -220,6 +224,31 @@ public class ClaimDAO {
 			statement.setInt(++index, claim.getUser_id());
 			statement.setString(++index, claim.getStatus().toLowerCase());
 			statement.setBoolean(++index, claim.isPending());
+=======
+			String query = "SELECT * FROM claims WHERE id=?;";
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setInt(1,  id);
+			ResultSet tick = statement.executeQuery();
+			Boolean pend = false; //have to assign some value, default false in case no ticket appears
+			while(tick.next()) {
+				pend = tick.getBoolean("pending"); //checking if ticket is pending
+			}
+				if(pend == true) { //making sure non-pending tickets can't be changed
+					String sql = "UPDATE claims SET status = ?, pending=false WHERE id = ?;";
+					statement = connection.prepareStatement(sql);
+					statement.setString(1, status);
+					statement.setInt(2, id);
+					
+					statement.execute();
+					
+
+					
+					return true;
+				}
+				else {
+					return false;
+				}
+>>>>>>> backEndWork1
 
 			
 			

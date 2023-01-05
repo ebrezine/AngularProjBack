@@ -14,6 +14,7 @@ public class ClaimService {
 
     //We want to be able to Create New Tickets
 <<<<<<< HEAD
+<<<<<<< HEAD
     public boolean createClaim(Claim claim){
 
         //We do not need to give the claim ID --> will use DB connection for that
@@ -24,6 +25,12 @@ public class ClaimService {
 
         //We do not need to give the claim ID --> will use DB connection for that
         //We do not need to set pending boolean statu
+=======
+    public boolean createClaim(int claim_id, int amount, String description, String status, String user_id){
+
+        //We do not need to give the claim ID --> will use DB connection for that
+        //We do not need to set pending boolean statu
+>>>>>>> backEndWork1
     	
     	claim_id = claim_dao.getTotalClaims().size()+1;
     	status = "pending";
@@ -44,6 +51,7 @@ public class ClaimService {
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     public List<Claim> getPendingClaims(){
         return claim_dao.getPendingClaims();
 =======
@@ -55,6 +63,15 @@ public class ClaimService {
     
     public boolean changeClaim(Claim claim) {
     	return claim_dao.setClaim(claim);
+=======
+    public List<Claim> getAllClaims(String username){
+        return claim_dao.getAllClaims(username);
+    }
+    //Get All Claims of a User by Passing ID
+    
+    public boolean changeClaim(int id, String status) {
+    	return claim_dao.setClaim(id, status);
+>>>>>>> backEndWork1
     }
 
 }
