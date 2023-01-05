@@ -79,13 +79,15 @@ public class UserDAOImpl implements UserDAO {
 		try(Connection connection = ConnectionUtil.getConnection()) {
 			String sql = new String();
 			if(user.isWorker()) {
-				sql = "UPDATE users SET is_worker = true WHERE username = "+user.getUsername()+";";
+				sql = "UPDATE users SET is_worker = true WHERE username = ?;";
 			}
 			else {
-				sql = "UPDATE users SET is_worker = true WHERE username = "+user.getUsername()+";";
+				sql = "UPDATE users SET is_worker = true WHERE username = ?;";
 			}
 			
 			PreparedStatement statement = connection.prepareStatement(sql);
+			int index = 0; 
+			statement.setString(++index, user.getUsername());
 			statement.execute();
 			
 			return true;
